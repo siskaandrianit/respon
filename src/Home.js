@@ -34,7 +34,7 @@ class Home extends Component {
     return (
       <div>
         <h1 className="text-center">Prakiraan Cuaca Yogyakarta</h1>
-        <table className="table table-bordered" border="1">
+        <table className="table table-bordered">
           <thead>
             <tr>
               <th scope="col">Datetime</th>
@@ -50,9 +50,9 @@ class Home extends Component {
                 const {dt_txt,temp,temp_min,temp_max,weather} = item;
                 return (
                   <tr key={dt_txt}>
-                    <th scope="row">
+                    <td scope="row">
                       {dt_txt}
-                    </th>
+                    </td>
                     <td>
                       {temp}
                     </td>
