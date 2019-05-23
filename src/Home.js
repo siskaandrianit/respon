@@ -7,20 +7,19 @@ class Home extends Component {
       items: []
     };
   }
-
+  
   componentDidMount() {
-    fetch("https://randomuser.me/api/?results=67")
+    fetch("https://api.openweathermap.org/data/2.5/forecast?q=Yogyakarta,id&mode=json&appid=da78c92a761f8c4a50e5e6bcd5b1c51c&units=metric")
     .then(res => res.json())
-    .then(parsedJSON => parsedJSON.results.map(data => (
+    .then(parsedJSON => parsedJSON.list.map(data => (
       {
-        id: `${data.id.name}`,
-        firstName: `${data.name.first}`,
-        lastName: `${data.name.last}`,
-        location: `${data.location.state}, ${data.nat}`,
-        thumbnail: `${data.picture.large}`,
-        email:`${data.email}`,
-        date:`${data.dob.date}`,
-        age:`${data.dob.age}`,
+        dt_txt: `${data.dt_txt}`,
+        temp: `${data.main.temp}`,
+        temp_min: `${data.main.temp_min}`,
+        temp_max: `${data.main.temp_max}`,
+        weather: `${data.weather[0].main}`,
+        
+
       }
     )))
     .then(items => this.setState({
@@ -33,25 +32,45 @@ class Home extends Component {
   render() {
     const {items} = this.state;
     return (
-      <div className="boxWhite">
-        {
-          items.length > 0 ? items.map(item => {
-            const {id, firstName, lastName, location, thumbnail , email,date,age} = item;
-            return (
-              <div key={id} className="bgCircle">
-                <center><img src={thumbnail} alt={firstName} className="circle"/> </center><br />
-                <div className="ctr">
-                  {firstName} {lastName}<br />
-                  {location} <br/>
-                  {email}
-                  <br/>
-                  {date} {age}
-                </div>
-             
-              </div>
-            );
-          }) : null
-        }
+      <div>
+        <h1 className="text-center">Prakiraan Cuaca Yogyakarta</h1>
+        <table className="table table-bordered" border="1">
+          <thead>
+            <tr>
+              <th scope="col">Datetime</th>
+              <th scope="col">Temp</th> 
+              <th scope="col">Temp Min</th>
+              <th scope="col">Temp Max</th>
+              <th scope="col">Weather</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              items.length > 0 ? items.map(item => {
+                const {dt_txt,temp,temp_min,temp_max,weather} = item;
+                return (
+                  <tr key={dt_txt}>
+                    <th scope="row">
+                      {dt_txt}
+                    </th>
+                    <td>
+                      {temp}
+                    </td>
+                    <td>
+                      {temp_min}
+                    </td>
+                    <td>
+                      {temp_max}
+                    </td>
+                    <td>
+                      {weather}
+                    </td>
+                  </tr>  
+                );
+              }) : null
+            }
+          </tbody>  
+        </table>
       </div>
     );
   }
